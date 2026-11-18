@@ -1,0 +1,27 @@
+Idle vs (RC-on -> unlock -> RC-off) SRAM diff — 2026-06-30, CLEAN POWER (dedicated USB3),
+reliable writes verified, dumps @8MHz (75ms each), 3 dumps/state.
+Method: word stable across all 3 dumps WITHIN each state AND differs BETWEEN states
+(auto-rejects the 7.4% churn noise floor). Files: opt_idle_1/2/3.bin, opt_armed_1/2/3.bin.
+
+10 candidate words:
+  0x20000018  00000001 -> 00000003   bitfield, bit1 sets (LATCHED through RC-off) *
+  0x20000024  40302009 -> 49392919   counter/derived, caution
+  0x20000028  AEADACAB -> 58236D2F   counter/derived, caution
+  0x2000002C  000000AF -> 000000A1   state byte
+  0x2000027C  005C0607 -> 005C0507   one byte 06->05
+  0x20000558  00000000 -> 0302104A   } RC-BIND/PRESENT block (prior id'd 0x55a-55f as
+  0x2000055C  00000000 -> 07060504   } "decoded RC channel/bind block") = RC-was-on
+  0x20000560  00000000 -> 0000A808   } signature, NOT arm. (confound: idle baseline never saw RC)
+  0x2000060C  2067216B -> 2043216B   one byte 67->43 (near prior arm-cluster 0x620-622)
+  0x200011E0  00000000 -> 20000120   null -> POINTER into SRAM (takeoff-seq struct 0x11dc-11f3) *
+
+RECONCILIATION with optical-mode-gate history:
+- This is a CLEAN per-boot capture (clean power, reliable writes, no probe-theft) — useful because
+  absolute SRAM values drift per boot, so hold-targets must be re-captured per boot. Consistent with
+  the documented signature.
+- The live arm OUTPUT bytes (0x17/0x21c/0xbb5...) are ABSENT here as expected: RC off -> firmware
+  reverts them to disarmed within 300ms-1s, so they read idle-valued in our RC-off captures. We only
+  caught the LATCHED subset (0x18, 0x11E0 pointer) + the RC-present block (0x558-560).
+- Does NOT overturn the core conclusion: one-shot/single-byte forcing of these OUTPUT bytes = dead end
+  (firmware recomputes). Only the CONTINUOUS FULL-SET HOLD works (the "SWD: Hold Optical" milestone).
+  Real frontier = force the INPUT (decoded RC gesture/stick bytes), not the state.

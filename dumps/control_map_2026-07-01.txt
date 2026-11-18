@@ -1,0 +1,23 @@
+CONTROL→SRAM MAP — 2026-07-01 (continuous delta-poll, 150s, region 0x20000000-0x20000C00)
+Method: poll running target ~20Hz, log changed words; churn (Bins~75/76 of 76) vs
+control-correlated (Bins 1-6). Clean separation. Files: scratchpad/control_events.csv.
+
+SOLID:
+- Decoded STICK ARRAY = 0x200001B8..0x1BF (4 ch, microseconds):
+    0x200001BE = THROTTLE (down=03E8/1000, neutral=05DC/1500, up=07E4/2020) CONFIRMED
+    0x200001BC low = yaw (neutral 05DC); 0x200001B8 pair = pitch/roll (moved on right-stick)
+- ARM latch = 0x2000021C : 0->1 (fired with throttle down-gesture @t~74.5s)
+- TAKEOFF motor ramp = 0x200001C8/0x1CC float ramp 3d8b..->3f80 (0.06->1.0) @t~91s = motors spin up
+- CAMERA buttons (record video / take picture / lens up / lens down) = ZERO MCU-SRAM change
+    => handled by SoC/camera board, NOT the flight controller (architecture finding)
+- Mode byte 0x20000230 moved during the arm cluster; NOT cleanly isolated to a return-home press
+
+BUTTON SIGNATURES (offset found, exact label TBD - timing drifted from plan):
+- 0x2000023C : pulses 00000100 x3 (a clean 3-press button)
+- 0x2000043C : toggles 05000000<->00000000
+- 0x200004D4 : toggles 00000000<->00000001
+- 0x20000738 : pulses 0000FFFF
+- 0x20000018 : bit24 momentary (00000003<->01000003)  [note 0x18 also = arm bitfield low byte]
+
+NEXT: targeted button-pinning pass (flight buttons only - camera ones are silent):
+  headless, return-home/mode, left-stick-click, right-stick-click, takeoff -> 5 presses each.

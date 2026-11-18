@@ -1,0 +1,39 @@
+RC243 → BK2425 BOOT CONFIG — captured 2026-07-01 (controller power-on burst)
+Tap: Pico sigrok COM8, CLK=D2, MOSI=D5, contiguous channels D2,D3,D4,D5 @ 4 MHz.
+Source capture: scratchpad/rc_boot3.sr (32M samples, power-cycled mid-window).
+Decoder: spi clk=D2 mosi=D5 cpol=0 cpha=0 msb-first word=8 (FREE-RUN, no CS# yet).
+
+=== THE LINK KEY (nRF24L01+ impersonation parameters) ===
+TX_ADDR      = AB AC AD AE AF   (5-byte; W_REGISTER 0x30, single clean occurrence)
+SETUP_AW     = 0x03  -> 5-byte address width  (consistent w/ 5-byte addr)
+RF_SETUP     = 0x04  -> 1 Mbps, mid TX power
+CONFIG       = 0x4E  -> EN_CRC=1, CRCO=1 (2-byte CRC), PWR_UP=1, PRIM_RX=0 (TX)
+EN_AA        = 0x00  -> auto-ACK DISABLED (no ack handling needed)
+EN_RXADDR    = 0x00
+SETUP_RETR   = 0x00  -> no auto-retransmit
+RF_CH        = 0x09 at boot, then operational hop set {0x19,0x29,0x39,0x49}
+                       (2409 / 2425 / 2441 / 2457 / 2473 MHz)
+
+Clean anchor (aligned chunk): 30 AB AC AD AE AF  25 09  A0 1F F1 ...
+Descending config block (each pair = one register write):
+  20 4E | 21 00 | 22 00 | 23 03 | 24 00 | 25 10 | 26 04 | 27 77(STATUS clr)
+
+=== AIR PAYLOAD (10 bytes, after A0 = W_TX_PAYLOAD) ===
+GPS / idle : 7E 00 00 00 00 20 00 00 00 B3
+OPTICAL    : 7E 00 00 00 00 20 40 00 00 73   <-- byte6=0x40 = optical-mode flag
+  byte0 bit0 (7E->7F) = a separate button; last byte = position-weighted checksum.
+  Mode bit is a MOMENTARY command (RC asserts ~17 frames at the toggle edge).
+
+=== TO SWITCH GPS->OPTICAL on nRF24L01+ ===
+1. Config radio: TX_ADDR=AB AC AD AE AF, AW=5, 1Mbps, CRC-2, EN_AA off, PWR_UP TX.
+2. Hop-spray: for ch in {0x19,0x29,0x39,0x49}: set RF_CH; W_TX_PAYLOAD =
+   7E 00 00 00 00 20 40 00 00 73 ; pulse CE. Repeat the rotation for ~50-100 ms.
+3. Return to GPS: same but payload = 7E 00 00 00 00 20 00 00 00 B3.
+
+CAVEATS / TODO:
+- TX_ADDR seen ONCE (free-run decode). Re-confirm with a 2nd boot capture or CS#
+  framing (1k on CSN) before trusting for a permanent implant. Pattern is a clean
+  increment + coherent following bytes => high confidence.
+- RX_ADDR_P0 (0x2A) not cleanly isolated; irrelevant for TX-to-drone (EN_AA off).
+- ARM authority still RC-only: switching mode may require the drone already armed
+  by the real RC. Impersonating mode != impersonating arm. Verify on bench.
