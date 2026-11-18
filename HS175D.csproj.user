@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="CollapsibleGroup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Esp32Panel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="FlatScrollHost.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Forms\AirCardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ArmOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\AutoTuneForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CommLogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DetectionOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DroneConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DroneFileExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\GamepadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\LiveDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\NamePromptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ReWorkbench.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SerialMonitorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\StudioWebForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\WelcomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\WifiAdapterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\WifiSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="IconButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="IconGlyphButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Nrf24Panel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="SerialMonitorPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="TouchPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="VideoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Release copy of the drone control app, trimmed of the AirSim simulator and the
+       photogrammetry/point-cloud "mapping" subsystem (those lived in AirSim/, StreetView/,
+       GMap.NET_Newest/, and the PointCloud*/Triangulation*/Survey3D*/WorldMap*/OrbitWizard*/
+       WaypointList*/RayGeometry3D/VoxelCarver/KmlExporter/CameraProjection/YoloOnnxDetector/
+       YoloSegDetector files in the main project — none of that is copied here). Everything
+       that talks to the drone, the AirCard bridge, or the on-device NPU is unchanged. -->
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SelfContained>false</SelfContained>
+     <!--  <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware> -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- System.IO isn't in the SDK's implicit global-usings set under UseWindowsForms; restore it
+         explicitly rather than hunting down every file that relies on it being implicit. -->
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="9.0.0" />
+    <PackageReference Include="System.Management" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.17" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
+    <!-- native libmpv-2.dll for the low-latency mpv RTSP engine (MpvClient.cs). -->
+    <PackageReference Include="Endpne.LibMPV.Windows" Version="0.41.0" />
+    <!-- Classical CV toolbox (CvLineDetector.cs) -->
+    <PackageReference Include="OpenCvSharp4" Version="4.10.0.20241108" />
+    <PackageReference Include="OpenCvSharp4.Extensions" Version="4.10.0.20241108" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.0.20241108" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Endpne.LibMPV.Windows.targets only copies files matching "libmpv.*" by default, which does
+         NOT match the actual runtime DLL "libmpv-2.dll". -->
+    <MpvWindowsX64IncludeFiles Include="libmpv-2.dll" />
+    <MpvWindowsArm64IncludeFiles Include="libmpv-2.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- browser cockpit assets served by StudioWeb; copied next to the exe -->
+    <None Update="webroot\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- DroneLink is its own project (DroneLink\DroneLink.csproj) — exclude its files from this
+         project's implicit glob so they aren't compiled twice. docs/drone_protocol/npu_runtime/
+         npu_poc hold no C# at all, but are excluded too since they're reference material, not source. -->
+    <Compile Remove="DroneLink\**" />
+    <EmbeddedResource Remove="DroneLink\**" />
+    <None Remove="DroneLink\**" />
+    <Compile Remove="docs\**" />
+    <None Remove="docs\**" />
+    <Compile Remove="drone_protocol\**" />
+    <None Remove="drone_protocol\**" />
+    <Compile Remove="npu_runtime\**" />
+    <None Remove="npu_runtime\**" />
+    <Compile Remove="npu_poc\**" />
+    <None Remove="npu_poc\**" />
+  </ItemGroup>
+
+</Project>

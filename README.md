@@ -1,13 +1,8 @@
 <!-- TODO: banner photo — add once taken
 <img width="2048" height="512" alt="HS175D reverse-engineering banner" src="" />
 -->
-<img width="2048" height="768" alt="image" src="https://github.com/user-attachments/assets/13f20606-7159-49da-8669-ccd2797ac79e" />
-
 
 # HS175D — Reverse-Engineering a Consumer GPS Drone for RC-Free Control
-
-<img width="848" height="294" alt="image" src="https://github.com/user-attachments/assets/92ae52f2-8f63-4d2d-9701-b82229b1f912" />
-
 
 A complete, replicable reverse-engineering study of the **Holy Stone HS175D** GPS drone (a
 rebadged **SYMA X30 Pro**, firmware identity `SMX30PRO`). The end goal: **fly the aircraft with
@@ -93,11 +88,6 @@ reverse (on the I²C bus). Silkscreen: `X3C` / `LGS79011RX7` / `REV:07` / `2021.
 <!-- TODO: photo pending — SWD wiring at the FC
 <img width="500" alt="SWD probe wired to the flight controller's DAT/CLK/GND pads" src="" />
 -->
-
-<img width="250" height="450" alt="image" src="https://github.com/user-attachments/assets/65486b18-8601-4fe0-beb6-dd05353ac7e2" />
-<img width="250" height="333" alt="image" src="https://github.com/user-attachments/assets/6b1220a9-8b1d-49e7-8362-00458514d345" />
-<img width="274" height="476" alt="image" src="https://github.com/user-attachments/assets/f30e5142-9e74-48d4-b0e9-27def57df19e" />
-
 
 So there are **three independent buses into the flight controller** at one corner of the board.
 SWD is the one that produced results; UART and I²C are open avenues. There is no broken-out BOOT0
@@ -268,12 +258,6 @@ scratch on commodity hardware.
 <img width="500" alt="Pico logic analyzer soldered to the RC transmitter's BK2425 SPI pads" src="" />
 -->
 
- 
-<img width="750" height="563" alt="image" src="https://github.com/user-attachments/assets/b346ef2c-082c-44ab-aceb-bba4a5fb4253" />
-<img width="331" height="451" alt="image" src="https://github.com/user-attachments/assets/c3f552a1-d16f-4ffb-a831-473a4d750857" />
-<img width="246" height="392" alt="image" src="https://github.com/user-attachments/assets/4310b5af-8daa-4643-aa40-231616475bd7" />
-
- 
 - **Radio:** the RC link uses a **BK2425** — a Beken **nRF24L01+ clone** (same SPI command set,
   register map, and air-protocol family) behind a small PA. Because it's nRF24-compatible, an
   **nRF24L01+ module can impersonate it** once the protocol is known.
@@ -288,7 +272,7 @@ scratch on commodity hardware.
 - **Decoded:** steady-state frame `25 <ch>  A0 <10-byte payload>` (`0x25`=set hop channel,
   `0xA0`=W_TX_PAYLOAD). Optical-mode flag = payload byte 6 = `0x40`, sent as a **momentary pulse**
   at the button edge (the impersonator instead *holds* it — the drone accepts both). Hop rotation
-  `19→29→39→49`, 2 packets/channel, ~4.4 ms period. A separate **bind address**, present on the
+  a 4-channel round-robin *(sequence withheld — see docs/WRITEUP.md "Ethics / scope")*, 2 packets/channel, ~4.4 ms period. A separate **bind address**, present on the
   wire for only a few milliseconds at power-on, hands off to the live control address during bind.
 - **Result: a cold-start bind.** A fresh, unpaired aircraft accepts a from-scratch **ESP32 +
   nRF24L01+** controller with the factory transmitter switched off — bind, arm (the throttle
