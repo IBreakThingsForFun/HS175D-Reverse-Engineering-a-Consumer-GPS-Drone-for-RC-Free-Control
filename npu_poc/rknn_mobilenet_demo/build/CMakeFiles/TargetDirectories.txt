@@ -1,0 +1,7 @@
+/mnt/c/Users/johnb/source/repos/HS175D/npu_poc/rknn_mobilenet_demo/build/CMakeFiles/rknn_mobilenet_demo.dir
+/mnt/c/Users/johnb/source/repos/HS175D/npu_poc/rknn_mobilenet_demo/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/johnb/source/repos/HS175D/npu_poc/rknn_mobilenet_demo/build/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/johnb/source/repos/HS175D/npu_poc/rknn_mobilenet_demo/build/CMakeFiles/list_install_components.dir
+/mnt/c/Users/johnb/source/repos/HS175D/npu_poc/rknn_mobilenet_demo/build/CMakeFiles/install.dir
+/mnt/c/Users/johnb/source/repos/HS175D/npu_poc/rknn_mobilenet_demo/build/CMakeFiles/install/local.dir
+/mnt/c/Users/johnb/source/repos/HS175D/npu_poc/rknn_mobilenet_demo/build/CMakeFiles/install/strip.dir
