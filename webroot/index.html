@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Drone RE Studio — Cockpit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="topbar">
+    <span class="brand">Drone&nbsp;RE&nbsp;Studio</span>
+    <span id="link" class="pill stale">LINK…</span>
+    <span id="armPill" class="pill">DISARMED</span>
+    <span id="ownerPill" class="pill">owner: —</span>
+    <span class="grow"></span>
+    <button id="armBtn" class="btn">ARM</button>
+    <button id="takeBtn" class="btn warn">TAKE CONTROL</button>
+  </header>
+
+  <main>
+    <section id="stage">
+      <video id="video" autoplay playsinline muted></video>
+      <div id="novideo" class="novideo">video off — start MediaMTX (mediamtx.exe) for the camera feed</div>
+      <!-- HUD overlay -->
+      <div id="hud" class="hud">
+        <div class="hud-row"><b id="hMode">—</b><span>mode</span></div>
+        <div class="hud-row"><b id="hSats">—</b><span>sats</span></div>
+        <div class="hud-row"><b id="hFix">—</b><span>fix</span></div>
+        <div class="hud-row"><b id="hThr">128</b><span>thr</span></div>
+        <div class="hud-pos"><span id="hPos">no GPS</span></div>
+      </div>
+    </section>
+
+    <aside id="side">
+      <div class="card">
+        <div class="card-h">Flight</div>
+        <div id="sticks">
+          <canvas id="stickL" class="stick" width="200" height="200"></canvas>
+          <canvas id="stickR" class="stick" width="200" height="200"></canvas>
+        </div>
+        <div class="stick-lbl"><span>throttle / yaw</span><span>pitch / roll</span></div>
+        <div class="cmds">
+          <button class="btn cmd" data-cmd="takeoff">TAKE OFF</button>
+          <button class="btn cmd" data-cmd="land">LAND?</button>
+          <button class="btn cmd" data-cmd="rth">RTH?</button>
+          <button class="btn cmd" data-cmd="althold">ALT HOLD?</button>
+          <button class="btn cmd warn" data-cmd="stop">STOP?</button>
+          <button class="btn cmd danger" data-cmd="emergency">EMERGENCY?</button>
+        </div>
+        <div class="note">Only TAKE OFF is confirmed; the “?” commands are unverified guesses.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">Map <span class="muted" id="mapHome"></span></div>
+        <canvas id="map" width="320" height="240"></canvas>
+        <div class="maprow">
+          <label>alt <input id="wpAlt" type="number" value="10" min="1" max="120"></label>
+          <label>spd <input id="wpSpeed" type="number" value="5" min="1" max="15"></label>
+          <button id="wpClear" class="btn small">clear</button>
+        </div>
+        <div class="note">Tap the map to send a waypoint (UNVERIFIED frame). Home = first GPS fix.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">Sensors — everything readable</div>
+        <div id="readouts" class="readouts"></div>
+        <div class="card-sub">Raw frames (undecoded)</div>
+        <pre id="raw" class="raw"></pre>
+        <div class="card-sub">58xx subtypes seen</div>
+        <pre id="subs" class="raw"></pre>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="hud.js"></script>
+  <script src="video.js"></script>
+  <script src="control.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>
