@@ -375,6 +375,9 @@ sequences getting de-duplicated, and reading the RC's MISO line instead of MOSI 
 
 ## 9. The desktop app, and the AirCard hotspot used alongside it
 
+<img width="1280" height="674" alt="image" src="https://github.com/user-attachments/assets/85531a1d-a64f-4c82-8dc8-3f1334cc0d83" />
+
+
 This repo includes the custom Windows desktop app used to drive everything above (control loop,
 SWD/OpenOCD wrapper, the RC-link ESP32 panel, NPU bring-up, live packet monitor/inject/replay,
 video + AI-detect overlay). It is **not required** to reproduce anything above — every result can
