@@ -1,8 +1,10 @@
 <!-- TODO: banner photo — add once taken
 <img width="2048" height="512" alt="HS175D reverse-engineering banner" src="" />
 -->
+<img width="2048" height="768" alt="banner" src="https://github.com/user-attachments/assets/1fdc1b20-c06d-4677-8a3d-380f4d28b585" />
 
 # HS175D — Reverse-Engineering a Consumer GPS Drone for RC-Free Control
+<img width="848" height="294" alt="image" src="https://github.com/user-attachments/assets/41634387-bc35-4088-965e-39e0adc3da3d" />
 
 A complete, replicable reverse-engineering study of the **Holy Stone HS175D** GPS drone (a
 rebadged **SYMA X30 Pro**, firmware identity `SMX30PRO`). The end goal: **fly the aircraft with
@@ -88,6 +90,13 @@ reverse (on the I²C bus). Silkscreen: `X3C` / `LGS79011RX7` / `REV:07` / `2021.
 <!-- TODO: photo pending — SWD wiring at the FC
 <img width="500" alt="SWD probe wired to the flight controller's DAT/CLK/GND pads" src="" />
 -->
+<img width="333" height="450" alt="fc_swd_port"  src="https://github.com/user-attachments/assets/f48324d5-4a91-4b5d-ab11-78c587cd44e1" />
+<img width="250" height="450" alt="drone_fc_re" src="https://github.com/user-attachments/assets/9e2a1ea0-4eb3-4ea0-82b5-f342f458afba" />
+<img width="274" height="450" alt="image" src="https://github.com/user-attachments/assets/89780c87-cb16-4241-8a7f-63bb27d761b5" />
+
+
+
+
 
 So there are **three independent buses into the flight controller** at one corner of the board.
 SWD is the one that produced results; UART and I²C are open avenues. There is no broken-out BOOT0
@@ -257,6 +266,15 @@ scratch on commodity hardware.
 <!-- TODO: photo pending — RC transmitter SPI tap
 <img width="500" alt="Pico logic analyzer soldered to the RC transmitter's BK2425 SPI pads" src="" />
 -->
+<img width="750" height="400" alt="rf_board" src="https://github.com/user-attachments/assets/9fdec78a-db81-42d9-be71-e663c082bc37" />
+
+<img width="750" height="563" alt="image" src="https://github.com/user-attachments/assets/f6a1af65-8f29-4e7b-873d-51e18f5e8228" />
+<img width="331" height="451" alt="image" src="https://github.com/user-attachments/assets/a19cb9dc-f76c-4311-9351-4e9e9e7066a4" />
+<img width="246" height="392" alt="image" src="https://github.com/user-attachments/assets/43ea4aa9-f03c-433e-b134-90c106140c92" />
+
+
+
+
 
 - **Radio:** the RC link uses a **BK2425** — a Beken **nRF24L01+ clone** (same SPI command set,
   register map, and air-protocol family) behind a small PA. Because it's nRF24-compatible, an
